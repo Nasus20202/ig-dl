@@ -38,7 +38,10 @@ def get_photos(link):
     response = requests.get(f'https://i.instagram.com/api/v1/media/{media_id}/info/', cookies=cookies, headers=headers)
     data = response.json()
     valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
-    name = f'{data["items"][0]["user"]["full_name"]} - {data["items"][0]["caption"]["text"]}'
+    if data["items"][0]["caption"] != None:
+        name = f'{data["items"][0]["user"]["full_name"]} - {data["items"][0]["caption"]["text"]}'
+    else:
+        name = f'{data["items"][0]["user"]["full_name"]} - untitled'
     if "carousel_media" in data["items"][0]:
         photo_count = int(data["items"][0]["carousel_media_count"])
         for i in range(photo_count):
